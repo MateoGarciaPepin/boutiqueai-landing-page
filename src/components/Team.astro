@@ -1,10 +1,15 @@
 ---
 // "Team" — founder provenance. Bios removed on request; card carries name,
-// role, and a LinkedIn link. Falls back to a monogram tile until a real
-// headshot is supplied — see the `photo` field in site.ts.
+// role, and (when set) a LinkedIn link. Falls back to a monogram tile until a
+// real headshot is supplied — see the `photo` field in site.ts. Names are
+// bracketed placeholders while the repo is public (see site.ts); a name still
+// containing "[" renders dimmed, and the LinkedIn link only shows when a URL
+// is set.
 import Container from "./Container.astro";
 import Reveal from "./Reveal.astro";
 import { team } from "../content/site";
+
+const isPlaceholder = (name: string) => name.includes("[");
 ---
 
 <section id="team" class="border-t border-ink/12 py-20 md:py-28">
@@ -28,18 +33,27 @@ import { team } from "../content/site";
                 {founder.monogram}
               </div>
             )}
-            <h3 class="mb-1 font-display text-xl">{founder.name}</h3>
+            <h3
+              class:list={[
+                "mb-1 font-display text-xl",
+                isPlaceholder(founder.name) && "text-ink/40",
+              ]}
+            >
+              {founder.name}
+            </h3>
             <p class="mb-3 font-mono text-[11px] uppercase tracking-[0.1em] text-ink/60">
               {founder.role}
             </p>
-            <a
-              href={founder.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-mono text-xs uppercase tracking-[0.08em] text-oxide underline decoration-oxide/40 underline-offset-4 transition-colors hover:decoration-oxide"
-            >
-              LinkedIn ↗
-            </a>
+            {founder.linkedin && (
+              <a
+                href={founder.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-mono text-xs uppercase tracking-[0.08em] text-oxide underline decoration-oxide/40 underline-offset-4 transition-colors hover:decoration-oxide"
+              >
+                LinkedIn ↗
+              </a>
+            )}
           </Reveal>
         ))
       }

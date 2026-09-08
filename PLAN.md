@@ -195,17 +195,20 @@ copy went through three passes:
    "Typical AI shop:" / "Goya:" prefix so the pairing survives outside the visual column-header
    context, not just the one visible header row at the top of the list.
 
-**Team** — founder cards: monogram (or photo, once supplied), name, role, LinkedIn link. Bio copy was
-cut on explicit feedback. Real people now, not placeholders: **Alfredo Poves Luelmo**, CEO / Founder
-([LinkedIn](https://www.linkedin.com/in/alfredopoves/)), and **Mateo Garcia Pepin**, Lead AI Engineer
-/ Founder ([LinkedIn](https://www.linkedin.com/in/mateo-garcia-pepin/)) — the name was given as "Ppein"
-in chat and corrected to "Pepin" to match the LinkedIn handle and the account's own email; flag if
-that's wrong. `photo` is `null` in `site.ts` for both — headshots weren't fetched automatically.
-LinkedIn actively blocks/prohibits scraping profile data, including photos, and that holds regardless
-of whose profile it is or how legitimate the end use is; the fix is a human downloading their own
-photo (a few clicks, entirely within their rights) and handing over the file. Card border is solid
-now, not dashed — dashed was signaling "placeholder," which stopped being true once the content
-became real; the monogram fallback alone doesn't need that signal.
+**Team** — founder cards: monogram (or photo, once supplied), name, role, and a LinkedIn link when a
+URL is set. Bio copy was cut on explicit feedback.
+
+The section briefly carried the two real founders' names and LinkedIn URLs; both were pulled back to
+bracketed placeholders on 2026-09-08, right after the repo was made public, on request. What's left
+per card is the role (`CEO / Founder`, `Lead AI Engineer / Founder` — team shape, not identity) and
+a `[ Founder name ]` placeholder that `Team.astro` renders dimmed (`text-ink/40`) whenever the name
+still contains a `[`; the LinkedIn `<a>` is now conditional on `linkedin` being non-null. Naming
+someone is a `site.ts` edit: drop the brackets, optionally add `linkedin` / `photo`. **The names and
+profile URLs remain in git history** (first commit, pushed while the repo was still private, then the
+repo went public) — removing them there needs a history rewrite and force-push, tracked as a separate
+task if it matters. `photo` is `null` for both; LinkedIn blocks scraping profile photos regardless of
+whose they are, so a headshot has to be a file someone hands over. Card border stays solid (not the
+old dashed "placeholder" signal) — the dimmed name already reads as unfilled.
 
 **Contact** — sets expectations rather than harvesting leads: tell us what's slow, we'll tell you
 within a week whether it's an AI problem and whether we're the right people. Mechanism is a `mailto:`

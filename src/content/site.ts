@@ -131,28 +131,31 @@ export const method = {
   ],
 };
 
-// `photo` is null until real headshots are supplied (see PLAN.md — fetching
-// them from LinkedIn automatically isn't something this build does; LinkedIn
-// blocks/prohibits scraping profile data, headshots included, regardless of
-// who's asking). Team.astro falls back to the monogram tile when null — drop
-// a file in public/images/team/ and set the path here once you have one.
+// Names, monograms, and LinkedIn URLs pulled 2026-09-08 when the repo went
+// public — the page shouldn't carry the founders' identities or profile
+// links yet. (They remain in git history from the first commit; scrubbing
+// that is a separate force-push job.) Cards keep the role, since the team
+// shape is part of the pitch, and show a bracketed placeholder where the
+// name goes — Team.astro dims any name still containing "[".
+//
+// To name someone: set `name` (drop the brackets), and optionally `linkedin`
+// (profile URL) and `photo` (a file in public/images/team/, which replaces
+// the monogram tile). `monogram` is the initials shown when there's no photo.
 export const team = {
   heading: "Founding team.",
   founders: [
     {
-      monogram: "AP",
-      name: "Alfredo Poves Luelmo",
+      monogram: "—",
+      name: "[ Founder name ]",
       role: "CEO / Founder",
-      linkedin: "https://www.linkedin.com/in/alfredopoves/",
+      linkedin: null as string | null,
       photo: null as string | null,
     },
     {
-      monogram: "MG",
-      // Corrected from "Ppein" to "Pepin" — matches the spelling on file
-      // for this account; flag if that's wrong.
-      name: "Mateo Garcia Pepin",
+      monogram: "—",
+      name: "[ Founder name ]",
       role: "Lead AI Engineer / Founder",
-      linkedin: "https://www.linkedin.com/in/mateo-garcia-pepin/",
+      linkedin: null as string | null,
       photo: null as string | null,
     },
   ],
