@@ -1,0 +1,64 @@
+---
+// "Engagements" — the commercial core. Two bordered tiles, each marked with an
+// original line-art icon (not a third-party logo — see PLAN.md) and an ember
+// top rule for visual anchor. Tile rhythm after ansonybonet.com/projects:
+// outcome first in display type, then detail, then one understated text link
+// pinned to the bottom edge so both cards' links align regardless of height.
+import Container from "./Container.astro";
+import Reveal from "./Reveal.astro";
+import { engagements } from "../content/site";
+
+// One hand-drawn mark per tier: a compass for Enablement (finding direction),
+// a small node graph for Systems (architecture, integration). Both stroke-only,
+// currentColor, so they inherit the card's ink tone.
+const icons = [
+  `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="24" r="17" /><path d="M30 17 L21.5 21.5 L17 30 L25.5 25.5 Z" fill="currentColor" stroke="none" /><circle cx="24" cy="24" r="1.6" fill="currentColor" stroke="none" /></svg>`,
+  `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="13" cy="13" r="4.5" /><circle cx="35" cy="13" r="4.5" /><circle cx="24" cy="35" r="4.5" /><path d="M16.7 15.7 L20.8 31.3" /><path d="M31.3 15.7 L27.2 31.3" /><path d="M17.5 13 L30.5 13" /></svg>`,
+];
+---
+
+<section id="engagements" class="border-t border-ink/12 py-20 md:py-28">
+  <Container>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        engagements.tiers.map((tier, i) => (
+          <Reveal
+            as="div"
+            index={i + 1}
+            class="relative flex flex-col border border-ink/12 p-8 md:p-10"
+          >
+            <div class="absolute inset-x-0 top-0 h-[3px] bg-ember" aria-hidden="true" />
+
+            <div class="mb-5 h-11 w-11 text-ink" set:html={icons[i]} />
+
+            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-oxide">{tier.tag}</p>
+            <h3 class="mt-2 font-display text-3xl md:text-4xl">{tier.title}</h3>
+            <p class="mt-4 font-display text-lg leading-snug text-ink/90 md:text-xl">
+              {tier.pull}
+            </p>
+            <p class="mt-4 leading-relaxed text-ink/70">{tier.dek}</p>
+            <ul class="mt-6 space-y-2.5 border-t border-ink/12 pt-6">
+              {tier.items.map((item) => (
+                <li class="flex gap-3 text-sm text-ink/80">
+                  <span class="mt-0.5 font-mono text-oxide">/</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={engagements.cta.href}
+              class="mt-auto inline-flex items-center gap-2 self-start pt-8 font-mono text-xs uppercase tracking-[0.1em] text-oxide underline decoration-oxide/40 underline-offset-4 transition-colors hover:decoration-oxide"
+            >
+              {engagements.cta.label}
+              <span aria-hidden="true">→</span>
+            </a>
+          </Reveal>
+        ))
+      }
+    </div>
+
+    <Reveal index={3} class="mt-10 max-w-2xl border-t border-ink/12 pt-8">
+      <p class="leading-relaxed text-ink/70">{engagements.gateway}</p>
+    </Reveal>
+  </Container>
+</section>

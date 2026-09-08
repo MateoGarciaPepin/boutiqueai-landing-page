@@ -1,0 +1,51 @@
+---
+import Container from "./Container.astro";
+import Reveal from "./Reveal.astro";
+import { hero } from "../content/site";
+
+// hero.bgImage.src is a public/ path ("/images/…"); prefix it with the Pages
+// subpath (astro.config `base`). BASE_URL has a trailing slash, so strip it.
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<section class="relative overflow-hidden pb-20 pt-28 md:pb-28 md:pt-40">
+  <img
+    src={`${base}${hero.bgImage.src}`}
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.09] grayscale"
+  />
+
+  <Container class="relative">
+    <Reveal as="p" class="mb-6 font-mono text-[11px] uppercase tracking-[0.12em] text-ink/60">
+      {hero.eyebrow}
+    </Reveal>
+
+    <Reveal
+      as="h1"
+      index={1}
+      class="max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.05] tracking-[-0.01em]"
+    >
+      {hero.headline}
+    </Reveal>
+
+    <Reveal as="p" index={2} class="mt-8 max-w-xl text-lg leading-relaxed text-ink/70">
+      {hero.subhead}
+    </Reveal>
+
+    <Reveal as="div" index={3} class="mt-10 flex flex-wrap items-center gap-6">
+      <a
+        href={hero.primaryCta.href}
+        class="inline-flex items-center gap-2 bg-ink px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-paper transition-colors hover:bg-oxide"
+      >
+        {hero.primaryCta.label}
+      </a>
+      <a
+        href={hero.secondaryCta.href}
+        class="font-mono text-xs uppercase tracking-[0.1em] text-ink/60 underline decoration-ink/30 underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"
+      >
+        {hero.secondaryCta.label}
+      </a>
+    </Reveal>
+  </Container>
+</section>

@@ -1,0 +1,75 @@
+---
+import "../styles/global.css";
+import { meta } from "../content/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = meta.title, description = meta.description } = Astro.props;
+
+// Prefix for public/ assets so they resolve under the GitHub Pages subpath
+// (astro.config `base`). BASE_URL carries a trailing slash; drop it and add
+// our own so the join is unambiguous.
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <!--
+      No og:image yet. Automated design-reference lookups (surge.ai,
+      tastelabs.com, figma.com) were blocked in this session, and generating
+      a real social-share image needs an actual design pass, not a
+      placeholder graphic. Add one (1200x630) before sharing this link
+      anywhere social previews matter.
+    -->
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>
+      // Runs before paint so .reveal elements only start hidden once we
+      // know JS actually works. See global.css for the CSS side of this.
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body id="top">
+    <a href="#main" class="skip-link px-4 py-2 bg-ink text-paper font-mono text-xs uppercase tracking-wider">
+      Skip to content
+    </a>
+    <slot />
+
+    <script>
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const targets = document.querySelectorAll<HTMLElement>(".reveal");
+
+      if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+        targets.forEach((el) => el.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        );
+        targets.forEach((el) => observer.observe(el));
+      }
+    </script>
+  </body>
+</html>

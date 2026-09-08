@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (latin-only subsets where available) — see PLAN.md "Type". */
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource-variable/inter-tight/wght.css";
+@import "@fontsource/space-mono/latin-400.css";
+
+@theme {
+  --color-paper: #f4f1ea;
+  /* Warm near-black. Hue-shifted toward oxblood after ansonybonet.com, whose
+   * body text is a deep wine (#561b29) rather than a cold black. Kept at the
+   * same luminance as the previous #16130f so text-ink/60 labels stay ~4.6:1
+   * on paper (a lighter oxblood dropped them onto the 4.5:1 AA line). */
+  --color-ink: #20110d;
+  --color-oxide: #a8422a;
+  /* Hotter red, for decorative rules and dots only — never text or a text
+   * background (fails AA there). Text accents stay on --color-oxide (5.35:1). */
+  --color-ember: #d6482f;
+
+  /*
+   * ink-60 / ink-40 / rule from PLAN.md are not separate tokens here — Tailwind v4's
+   * opacity modifier covers them for free: text-ink/60, text-ink/40, border-ink/12.
+   */
+
+  --font-display: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Inter Tight Variable", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-oxide);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-oxide);
+    outline-offset: 3px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -3rem;
+    z-index: 50;
+    transition: top 0.15s ease;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/*
+ * Scroll-reveal: visible-by-default so content never depends on JS running.
+ * The `js` class is set on <html> by a blocking inline script in Base.astro
+ * before paint; only then do .reveal elements start hidden and animate in
+ * via the IntersectionObserver in Base.astro. Reduced motion always wins.
+ */
+@layer components {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+---
+// Scroll-reveal wrapper. See global.css for the .reveal styles and
+// Base.astro for the IntersectionObserver that adds "is-visible".
+// `index` staggers siblings that appear together (a row of cards, a list).
+interface Props {
+  as?: string;
+  index?: number;
+  class?: string;
+}
+const { as: Tag = "div", index = 0, class: className = "" } = Astro.props;
+const style = index ? `--reveal-delay: ${index * 60}ms` : undefined;
+---
+
+<Tag class:list={["reveal", className]} style={style}>
+  <slot />
+</Tag>

@@ -1,0 +1,42 @@
+---
+// "Illustrative" — one composite scenario per engagement tier, sitting
+// between Engagements and Method as a bridge from the pitch to the proof.
+// Not case studies: there are no clients (see PLAN.md "Proof"), which the
+// section label states plainly. Composites are built from sector shapes,
+// not named companies. Editorial rows (mono tier tag + narrative), not
+// bordered tiles — deliberately not the Engagements card treatment.
+import Container from "./Container.astro";
+import Reveal from "./Reveal.astro";
+import { illustrative } from "../content/site";
+---
+
+<section id="scenarios" class="border-t border-ink/12 py-20 md:py-28">
+  <Container>
+    <Reveal as="div" class="mb-10 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+      <h2 class="font-display text-3xl leading-tight md:text-4xl">{illustrative.heading}</h2>
+      <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink/60">
+        {illustrative.label}
+      </p>
+    </Reveal>
+
+    {
+      illustrative.scenarios.map((s, i) => (
+        <Reveal
+          index={i + 1}
+          class="grid grid-cols-1 gap-x-10 gap-y-5 border-t border-ink/12 py-10 md:grid-cols-[9rem_1fr] md:py-12"
+        >
+          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-oxide md:pt-1.5">
+            {s.tier}
+          </p>
+          <div class="max-w-2xl">
+            <h3 class="font-display text-xl leading-snug md:text-2xl">{s.situation}</h3>
+            <p class="mt-4 leading-relaxed text-ink/70">{s.body}</p>
+            <p class="mt-5 border-l-2 border-ember pl-4 font-display text-lg leading-snug text-ink/90 md:text-xl">
+              {s.result}
+            </p>
+          </div>
+        </Reveal>
+      ))
+    }
+  </Container>
+</section>

@@ -1,0 +1,18 @@
+---
+import Container from "./Container.astro";
+import { footer } from "../content/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-ink/12 py-8">
+  <Container
+    class="flex flex-col gap-3 font-mono text-xs uppercase tracking-[0.08em] text-ink/60 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <span>{footer.brand}</span>
+    <div class="flex flex-wrap gap-x-6 gap-y-2">
+      <a href={`mailto:${footer.email}`} class="transition-colors hover:text-ink">{footer.email}</a>
+      <span>{footer.city}</span>
+      <span>{year}</span>
+    </div>
+  </Container>
+</footer>

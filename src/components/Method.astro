@@ -1,0 +1,50 @@
+---
+// "Method" — the pitch, not an explanation. Four inverted defaults shown as
+// scales that always resolve to our side (right), not five paragraphs.
+// Column headers ("Typical AI shop" / "Goya") make the comparison explicit
+// instead of implied — see the comment in site.ts for why that changed.
+import Container from "./Container.astro";
+import Reveal from "./Reveal.astro";
+import { method } from "../content/site";
+---
+
+<section id="method" class="border-t border-ink/12 py-20 md:py-28">
+  <Container>
+    <Reveal as="h2" class="max-w-2xl font-display text-3xl leading-tight md:text-4xl">
+      {method.heading}
+    </Reveal>
+
+    <div class="mt-12 max-w-3xl">
+      <div class="flex items-center gap-4 pb-3 md:gap-8">
+        <span class="w-24 shrink-0 text-right font-mono text-[10px] uppercase tracking-[0.1em] text-ink/40 md:w-56">
+          {method.columnLeft}
+        </span>
+        <span class="min-w-8 flex-1" />
+        <span class="w-28 shrink-0 font-mono text-[10px] uppercase tracking-[0.1em] text-oxide md:w-56">
+          {method.columnRight}
+        </span>
+      </div>
+
+      {
+        method.scales.map((scale, i) => (
+          <Reveal
+            index={i + 1}
+            class="flex items-center gap-4 border-t border-ink/12 py-5 first:border-t-0 first:pt-0 md:gap-8"
+          >
+            <span class="w-24 shrink-0 text-right font-mono text-[11px] uppercase leading-snug tracking-[0.04em] text-ink/60 md:w-56 md:text-xs">
+              <span class="sr-only">{method.columnLeft}: </span>
+              {scale.left}
+            </span>
+            <span class="relative h-px min-w-8 flex-1 bg-ink/12" aria-hidden="true">
+              <span class="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-ember" />
+            </span>
+            <span class="w-28 shrink-0 font-display text-lg leading-tight text-ink md:w-56 md:text-2xl">
+              <span class="sr-only">{method.columnRight}: </span>
+              {scale.right}
+            </span>
+          </Reveal>
+        ))
+      }
+    </div>
+  </Container>
+</section>

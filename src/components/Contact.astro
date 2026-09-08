@@ -1,0 +1,28 @@
+---
+// "Contact" — sets expectations, mailto only. No form backend by design.
+import Container from "./Container.astro";
+import Reveal from "./Reveal.astro";
+import { contact } from "../content/site";
+---
+
+<section id="contact" class="border-t border-ink/12 py-20 md:py-28">
+  <Container>
+    <Reveal as="h2" class="mb-6 max-w-xl font-display text-4xl leading-tight md:text-5xl">
+      {contact.heading}
+    </Reveal>
+    <Reveal as="p" index={1} class="mb-10 max-w-md leading-relaxed text-ink/70">
+      {contact.body}
+    </Reveal>
+    <Reveal index={2}>
+      <a
+        href={`mailto:${contact.email}`}
+        class="font-display text-3xl text-oxide underline decoration-oxide/30 underline-offset-8 transition-colors hover:decoration-oxide md:text-4xl"
+      >
+        {contact.email}
+      </a>
+      <p class="mt-4 font-mono text-xs uppercase tracking-[0.1em] text-ink/60">
+        {contact.note}
+      </p>
+    </Reveal>
+  </Container>
+</section>

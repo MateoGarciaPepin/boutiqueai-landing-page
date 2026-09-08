@@ -1,0 +1,50 @@
+---
+import Container from "./Container.astro";
+import { BRAND, nav } from "../content/site";
+---
+
+<header
+  id="nav"
+  class="sticky top-0 z-40 border-b border-transparent transition-colors duration-200"
+>
+  <Container class="flex items-center justify-between py-5">
+    <a href="#top" class="font-mono text-sm uppercase tracking-[0.12em] text-ink">
+      {BRAND}
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-8 md:flex">
+      {
+        nav.links.map((link) => (
+          <a
+            href={link.href}
+            class="font-mono text-xs uppercase tracking-[0.1em] text-ink/60 transition-colors hover:text-ink"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={nav.cta.href}
+      class="font-mono text-xs uppercase tracking-[0.1em] text-oxide underline decoration-oxide/40 underline-offset-4 hover:decoration-oxide"
+    >
+      {nav.cta.label}
+    </a>
+  </Container>
+</header>
+
+<script>
+  const header = document.getElementById("nav");
+
+  if (header) {
+    const onScroll = () => {
+      const scrolled = window.scrollY > 40;
+      header.classList.toggle("border-ink/12", scrolled);
+      header.classList.toggle("bg-paper/90", scrolled);
+      header.classList.toggle("backdrop-blur-sm", scrolled);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>
